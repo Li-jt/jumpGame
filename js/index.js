@@ -107,12 +107,10 @@ function frame() {
         rectArr[0].isStop = true;
         isCreat = true;
         count += 1;
-        // console.log(count);
       }
     }
   }
 
-  console.log(rectArr[0].moveSteep > 0, player.y + player.h > initY + rectH * 1.1, player.x <= rectArr[0].x + rectW, player.x + player.w, rectArr[0].x)
   if ((rectArr[0].moveSteep > 0 && player.y + player.h > initY + rectH * 1.1 && player.x <= rectArr[0].x + rectW) ||
     (rectArr[0].moveSteep > 0 && player.y + player.h > initY + rectH * 1.1 && player.x + player.w < rectArr[0].x) ||
     (rectArr[0].moveSteep < 0 && player.y + player.h > initY + rectH * 1.1 && player.x + player.w >= rectArr[0].x) ||
