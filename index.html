@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body,
+    html {
+      padding: 0;
+      margin: 0;
+    }
+
+    #count {
+      font-size: 30px;
+      font-weight: 600;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translate(-50%);
+    }
+
+    #mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      /* line-height: 100vh; */
+      color: #fff;
+      font-size: 20px;
+    }
+
+    #mask>div {
+      width: 100vw;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="count">分数：0</div>
+  <canvas id="myCanvas"></canvas>
+  <div id="mask">
+    <div>
+      <p style="font-weight: 600;font-size: 30px;display: none;" id="yxjs">游戏结束</p>
+      <p>点击任意地方开始游戏</p>
+    </div>
+  </div>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
