@@ -6,6 +6,9 @@ let yxjsMod = document.getElementById("yxjs");
 
 //游戏是否结束
 let gameIsEnd = false;
+let isEnd = false;
+
+let lineWidth = 150;
 
 // 每个方块的大小
 let rectW = 150;
@@ -47,6 +50,8 @@ function init() {
   canvas.height = window.outerHeight;
   rectArr = [];
   gameIsEnd = false;
+  isEnd = false;
+  lineWidth = 150;
   initX = 0;
   initY = window.outerHeight - rectH;
   //是否创建方块
@@ -68,11 +73,7 @@ function init() {
 }
 
 function frame() {
-  if (gameIsEnd) return;
-  if (isCreat) {
-    isCreat = false;
-    creatRect();
-  }
+  if (isEnd) return;
   //设置canvas宽高
   canvas.width = window.outerWidth;
   canvas.height = window.outerHeight;
@@ -90,36 +91,46 @@ function frame() {
 
   drawRect(player.x, player.y, player.c, player.w, player.h);
 
-  for (let i = 0; i < rectArr.length; i++) {
+  if (!gameIsEnd) {
 
-    drawRect(rectArr[i].x, rectArr[i].y, rectArr[i].c);
-
-    // 向右移动
-    if (!rectArr[i].isStop) {
-      rectArr[i].x += rectArr[i].moveSteep;
+    if (isCreat) {
+      isCreat = false;
+      creatRect();
     }
 
-    // 角色站立 停止
-    if (i == 0) {
-      if (player.x <= rectArr[0].x + rectW &&
-        player.x >= rectArr[0].x &&
-        player.y >= initY) {
-        rectArr[0].isStop = true;
-        isCreat = true;
-        count += 1;
+    for (let i = 0; i < rectArr.length; i++) {
+
+      drawRect(rectArr[i].x, rectArr[i].y, rectArr[i].c);
+
+      // 向右移动
+      if (!rectArr[i].isStop) {
+        rectArr[i].x += rectArr[i].moveSteep;
+      }
+
+      // 角色站立 停止
+      if (i == 0) {
+        if (player.x <= rectArr[0].x + rectW &&
+          player.x >= rectArr[0].x &&
+          player.y >= initY) {
+          rectArr[0].isStop = true;
+          isCreat = true;
+          count += 1;
+        }
       }
     }
-  }
+
+  };
 
   if ((rectArr[0].moveSteep > 0 && player.y + player.h > initY + rectH * 1.1 && player.x <= rectArr[0].x + rectW) ||
     (rectArr[0].moveSteep > 0 && player.y + player.h > initY + rectH * 1.1 && player.x + player.w < rectArr[0].x) ||
     (rectArr[0].moveSteep < 0 && player.y + player.h > initY + rectH * 1.1 && player.x + player.w >= rectArr[0].x) ||
     (rectArr[0].moveSteep < 0 && player.y + player.h > initY + rectH * 1.1 && player.x > rectArr[0].x + rectW)) {
+    // console.log(`分数：${count}`);
+    // console.log('游戏结束！');
     gameIsEnd = true;
-    console.log(`分数：${count}`);
-    console.log('游戏结束！');
-    yxjsMod.style.display = 'block';
-    maskMod.style.display = 'block';
+    end();
+    // yxjsMod.style.display = 'block';
+    // maskMod.style.display = 'block';
   } else {
     if (player.y + player.h >= initY + rectH) {
       if (player.x <= rectArr[0].x + rectW &&
@@ -186,6 +197,21 @@ function creatRect() {
     player.y += rectH;
     player.j = player.y - 200;
   }
+}
+
+//结束
+function end() {
+  ctx.lineWidth = lineWidth;
+  lineWidth += 100;
+  if (lineWidth >= 1500) {
+    lineWidth = 1500;
+    isEnd = true;
+    yxjsMod.style.display = 'block';
+    maskMod.style.display = 'block';
+  }
+  ctx.strokeStyle = 'green';
+  ctx.arc(player.x + player.w / 2, player.y + player.h / 2, canvas.height, 0, Math.PI * 2);
+  ctx.stroke(); // 画圆
 }
 
 // 绘制方块
